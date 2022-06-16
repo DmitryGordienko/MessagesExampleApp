@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Create message</h2>
+<p>
+  To: {{data.user.nickname}}
+</p>
+<p>
+  Message:
+</p>
+<mat-form-field appearance="fill">
+  <textarea matInput [(ngModel)]="message"></textarea>>
+</mat-form-field>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button [mat-dialog-close]="message">Send</button>
+</div>

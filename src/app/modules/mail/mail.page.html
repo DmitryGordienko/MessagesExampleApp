@@ -1,0 +1,34 @@
+<div class="controls">
+  <app-simple-button routerLink="/home" routerLinkActive="active">Home</app-simple-button>
+  <div class="search">
+    Search:
+    <input #searchBox id="search-box" (input)="search($event)" />
+    Found: {{(messages$|async)?.length}}
+    <!--
+    -->
+  </div>
+</div>
+<div class="loader" *ngIf="isLoading">
+  Loading...
+</div>
+
+<cdk-virtual-scroll-viewport itemSize="115" class="message-list">
+  <div class="line" *cdkVirtualFor="let item of (messages$|async); index as i; count as itemsCount">
+    <!--
+      TODO: Create a component for the list item
+    -->
+
+    <div class="message-item">
+      <div class="counter">#{{i + 1}}</div>
+      <div class="message">
+        <app-message [message]="item"></app-message>
+        <div class="message-controls">
+          <mat-icon (click)="openViewDialog(item)">visibility</mat-icon>
+          <mat-icon (click)="openCreateDialog(item.user)">create</mat-icon>
+          <mat-icon (click)="openDeleteDialog(item)">delete_forever</mat-icon>
+        </div>
+      </div>
+    </div>
+    <div class="separator" *ngIf="i < itemsCount"></div>
+  </div>
+</cdk-virtual-scroll-viewport>

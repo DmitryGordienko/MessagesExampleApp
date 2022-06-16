@@ -1,0 +1,7 @@
+<div class="controls">
+  <app-simple-button routerLink="/home" routerLinkActive="active">Home</app-simple-button>
+</div>
+<mat-card class="inline-calendar-card">
+  <mat-calendar [(selected)]="selected"></mat-calendar>
+</mat-card>
+<p>Selected date: {{selected}}</p>
