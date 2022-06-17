@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { IMessage } from 'src/app/core/models/message.model';
 import { IUser } from 'src/app/core/models/user.model';
-import { MessagesService } from 'src/app/core/services/messages-service.service';
+import { MessagesService } from 'src/app/core/services/messages.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { MessageCreateDialogComponent } from './components/message-create-dialog/message-create-dialog.component';
 import { MessageViewDialogComponent } from './components/message-view-dialog/message-view-dialog.component';

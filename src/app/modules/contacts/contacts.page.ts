@@ -3,7 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { IUser } from 'src/app/core/models/user.model';
-import { MessagesService } from 'src/app/core/services/messages-service.service';
+import { ContactsService } from 'src/app/core/services/contacts.service';
+import { MessagesService } from 'src/app/core/services/messages.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { ContactCreateDialogComponent } from './components/contact-create-dialog/contact-create-dialog.component';
 import { ContactViewDialogComponent } from './components/contact-view-dialog/contact-view-dialog.component';
@@ -22,15 +23,16 @@ export class ContactsPage implements OnInit {
   update = new BehaviorSubject<boolean>(true);
 
 
-  constructor(private messagesService: MessagesService, public dialog: MatDialog) {
-    this.contacts$ = this.messagesService.messagesContacts;
+  constructor(private contactsService: ContactsService, public dialog: MatDialog) {
+    this.contacts$ = this.contactsService.messagesContacts;
   }
 
   ngOnInit() {
 
+    this.contactsService.load();
     this.contacts$ = this.update.pipe(
       tap(_ => this.isLoading = true),
-      switchMap(_ => this.messagesService.messagesContacts), // request the data
+      switchMap(_ => this.contactsService.messagesContacts), // request the data
       tap(_ => this.isLoading = false)
     )
   }
@@ -65,7 +67,7 @@ export class ContactsPage implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.messagesService.deleteByUserId(user.id);
+        this.contactsService.delete(user.id);
         this.update.next(true);
       }
     });
