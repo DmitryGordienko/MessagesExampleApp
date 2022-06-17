@@ -5,7 +5,6 @@ import { messagesListMock } from '../mocks/messages-list.mock';
 import { IMessage } from '../models/message.model';
 import { LocalStorageService } from './local-storage.service';
 import { environment } from '../../../environments/environment';
-import { IUser } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +14,6 @@ export class MessagesService {
   APIPath: string = environment.APIUrl + '/messages'
 
   private _messages: IMessage[] = [];
-  private _contacts: IUser[] = [];
-
-  get messagesContacts() {
-    // Contacts from the messages are used just for demonstration purposes
-    // It should be a proper source used for this data
-    this.updateContacts();
-    return of([...this._contacts]);
-  }
 
   constructor(
     private httpClient: HttpClient,
@@ -73,10 +64,6 @@ export class MessagesService {
   deleteByUserId(userId: string) {
     this._messages = this._messages.filter(x => x.user.id != userId);
     this.localStorageService.set('messages', this._messages);
-  }
-
-  updateContacts() {
-    this._contacts = this._messages.map(x => x.user);
   }
 
   getMockMessages() {
